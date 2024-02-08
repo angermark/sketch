@@ -1,13 +1,10 @@
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { BasicScene } from "./basicScene";
-import { Head } from "./head";
 import * as THREE from "three";
 import { Renderer } from "./renderer";
 import { SceneMesh } from "./SceneMesh";
 import { MouseTracker } from "./mouseTracker";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import { PencilLinesPass } from "./PencilLinesPass";
 import { CrosshatchPass } from "./crosshatchPass";
 export class Canvas {
   canvas: HTMLCanvasElement | null;
@@ -38,12 +35,6 @@ export class Canvas {
 
     // Composer
     this.composer = new EffectComposer(this.renderer);
-    const renderPass = new RenderPass(this.scene, this.camera);
-    const pencilLinesPass = new PencilLinesPass({
-      ...sizes,
-      scene: this.scene,
-      camera: this.camera,
-    });
 
     const crosshatchPass = new CrosshatchPass({
       ...sizes,
@@ -51,14 +42,10 @@ export class Canvas {
       camera: this.camera,
     });
 
-    //this.composer.addPass(renderPass);
-    //this.composer.addPass(pencilLinesPass);
     this.composer.addPass(crosshatchPass);
-    console.log(crosshatchPass);
 
     this.clock = new THREE.Clock();
     this.previousTime = 0;
-    //this.camera.lookAt(new THREE.Vector3(0, 3, 10));
     this.tick();
   }
 

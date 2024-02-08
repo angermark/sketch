@@ -63,14 +63,11 @@ export class CrosshatchPass extends Pass {
   render(
     renderer: THREE.WebGLRenderer,
     writeBuffer: THREE.WebGLRenderTarget<THREE.Texture>,
-    readBuffer: THREE.WebGLRenderTarget<THREE.Texture>,
-    deltaTime: number,
-    maskActive: boolean
+    readBuffer: THREE.WebGLRenderTarget<THREE.Texture>
   ): void {
     const elapsedTime = this.clock.getElapsedTime();
     const deltaT = elapsedTime - this.previousTime;
 
-    // if (true) {
     if (deltaT > 1 / 24) {
       this.previousTime = elapsedTime;
       renderer.setRenderTarget(this.normalBuffer);

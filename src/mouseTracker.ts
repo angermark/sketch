@@ -33,9 +33,6 @@ export class MouseTracker {
           this.windowSize.height
         ),
       };
-      window.addEventListener("mouseleave", (event) => {
-        console.log("sjkajksa");
-      });
     });
 
     window.addEventListener("resize", (_: UIEvent) => {

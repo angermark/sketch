@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "login": "vercel login",
+    "deploy": "vercel --prod",
     "dev": "vite",
     "build": "vite build"
   },
@@ -14,6 +16,9 @@
   "dependencies": {
     "@types/three": "^0.158.2",
     "lil-gui": "^0.19.0",
-    "three": "^0.158.0"
+    "three": "^0.158.0",
+    "vercel": "^33.4.1",
+    "vite": "^4.5.0",
+    "vite-plugin-vercel": "^4.0.0"
   }
 }

@@ -18,8 +18,4 @@ const canvas = new Canvas("canvas.webgl", mouseTracker);
 /**
  * Model
  */
-
-//canvas.addMesh(ArbitraryHead);
 canvas.addMesh(ArbitraryHead2);
-// canvas2.addMesh(GeoHead);
-//canvas2.addMesh(BouncyCylinder);
