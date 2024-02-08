@@ -1,4 +1,3 @@
-uniform sampler2D tDiffuse;
 uniform sampler2D uNormals;
 uniform sampler2D uTexture;
 
@@ -6,11 +5,7 @@ uniform vec2 uResolution;
 
 uniform float uTime;
 
-uniform vec2 uTres;
-
-varying vec2 vUv;
-
-#define FLICKER .5
+#define FLICKER 1.
 
 #define PI2 6.28318530718
 #define sc 2.
@@ -37,13 +32,10 @@ vec4 getCol(vec2 pos)
     vec4 r1 = (getRand((pos+roffs)*.05*rsc/sc+uTime*131.*FLICKER)-.5)*10.*ramp;
     vec2 res0=vec2(textureSize(uNormals,0));
     vec2 uv=(pos+r1.xy*sc)/uResolution.xy;
-    //uv=uvSmooth(uv,res0);
     vec4 c = texture(uNormals,uv);
     vec4 bg= vec4(vec3(clamp(.3+pow(length(uv-.5),2.),0.,1.)),1);
     bg=vec4(1);
-    //c = mix(c,bg,clamp(dot(c.xyz,vec3(-1,2,-1)*1.5),0.,1.));
     float vign=pow(clamp(-.5+length(uv-.5)*2.,0.,1.),3.);
-    //c = mix(c,bg,vign);
     return c;
 }
 
@@ -64,10 +56,10 @@ vec2 getGrad(vec2 pos, float eps)
 
 void main() 
 {
+    // handle pixelratio
     vec2 fragCoord = gl_FragCoord.xy / 2.;
 
     // subtraction of 2 rand values, so its [-1..1] and noise-wise not as white anymore
-    //vec4 r = getRand(fragCoord*1.2/sqrt(sc))-getRand(fragCoord*1.2/sqrt(sc)+vec2(1.0,-1.0)*1.5);
     vec4 r = getRand(fragCoord*1.2/sqrt(sc))-getRand(fragCoord*1.2/sqrt(sc)+vec2(1,-1)*1.5);
     // white noise
     vec4 r2 = getRand(fragCoord*1.2/sqrt(sc));
@@ -91,7 +83,6 @@ void main()
         // another wildly varying edge-line
     	ramp=.3*pow(1.3,fi*5.); rsc=10.7*pow(1.3,-fi*5.);
     	br+=.4*(.2+fi)*smoothstep(t-w/2.,t+w/2.,length(getGrad(fragCoord,.4*sc))*sc);
-    	//roffs += vec2(13.,37.);
     }
     gl_FragColor.xyz=vec3(1)-.7*br*(.5+.5*r2.z)*3./float(num);
     gl_FragColor.xyz=clamp(gl_FragColor.xyz,0.,1.);
@@ -125,23 +116,5 @@ void main()
     gl_FragColor.xyz=1.-((1.-gl_FragColor.xyz)*.7);
     // paper
     gl_FragColor.xyz *= .95+.06*r.xxx+.06*r.xyz;
-    gl_FragColor.w = 1.;
-
-    // if(true)
-    // {
-    // 	vec2 scc=(fragCoord-.5*uResolution.xy)/uResolution.x;
-    // 	float vign = 1.-.3*dot(scc,scc);
-    // 	vign*=1.-.7*exp(-sin(fragCoord.x/uResolution.x*3.1416)*40.);
-    // 	vign*=1.-.7*exp(-sin(fragCoord.y/uResolution.y*3.1416)*20.);
-    // 	gl_FragColor.xyz *= vign;
-        
-    // }
-
-    // gl_FragColor = texture(uNormals,gl_FragCoord.xy / uResolution.xy);
-    // gl_FragColor = vec4((uResolution.x - 659.) * 1000., 0.0,0.0,1.);
-    
-    //gl_FragColor = getRand(gl_FragCoord.xy);
-   // gl_FragColor.xyz = getCol(gl_FragCoord.xy).xyz;
-    //gl_FragColor = texture(uTexture, fragCoord / uResolution.xy);
     gl_FragColor.w = 1.;
 }

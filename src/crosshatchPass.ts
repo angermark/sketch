@@ -32,8 +32,6 @@ export class CrosshatchPass extends Pass {
     normalBuffer.stencilBuffer = false;
     this.normalBuffer = normalBuffer;
 
-    console.log(width, height);
-
     this.normalMaterial = new THREE.MeshNormalMaterial();
 
     this.material.uniforms.uResolution.value = new THREE.Vector2(width, height);
@@ -41,10 +39,6 @@ export class CrosshatchPass extends Pass {
     const loader = new THREE.TextureLoader();
     loader.load("/textures/final_noise.png", (texture) => {
       this.noiseTexture = texture;
-      this.tRes = new THREE.Vector2(
-        texture.source.data.width,
-        texture.source.data.height
-      );
       this.material.uniforms.uTexture.value = this.noiseTexture;
       this.material.uniforms.uTexture.value.wrapS =
         this.material.uniforms.uTexture.value.wrapT = THREE.RepeatWrapping;
@@ -68,29 +62,23 @@ export class CrosshatchPass extends Pass {
     const elapsedTime = this.clock.getElapsedTime();
     const deltaT = elapsedTime - this.previousTime;
 
+    // render at ~24 fps
     if (deltaT > 1 / 24) {
+      // update time
       this.previousTime = elapsedTime;
+
+      // render scene
       renderer.setRenderTarget(this.normalBuffer);
       const overrideMaterialValue = this.scene.overrideMaterial;
-
       this.scene.overrideMaterial = this.normalMaterial;
       renderer.render(this.scene, this.camera);
       this.scene.overrideMaterial = overrideMaterialValue;
 
+      // postprocessing
       this.material.uniforms.uNormals.value = this.normalBuffer.texture;
-      this.material.uniforms.tDiffuse.value = readBuffer.texture;
-      this.material.uniforms.uTres.value = this.tRes;
-
       this.material.uniforms.uTime.value = this.clock.getElapsedTime();
-
-      if (this.renderToScreen) {
-        renderer.setRenderTarget(null);
-        this.fsQuad.render(renderer);
-      } else {
-        renderer.setRenderTarget(writeBuffer);
-        if (this.clear) renderer.clear();
-        this.fsQuad.render(renderer);
-      }
+      renderer.setRenderTarget(null);
+      this.fsQuad.render(renderer);
     }
   }
 }

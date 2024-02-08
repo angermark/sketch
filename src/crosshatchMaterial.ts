@@ -8,7 +8,6 @@ export class CrosshatchMaterial extends THREE.ShaderMaterial {
       uniforms: {
         // we'll keep the naming convention here since the CopyShader
         // also used a tDiffuse texture for the currently rendered scene.
-        tDiffuse: { value: null },
         uNormals: { value: null },
         uTexture: { value: null },
         // we'll pass in the canvas size here later
@@ -18,7 +17,6 @@ export class CrosshatchMaterial extends THREE.ShaderMaterial {
         uTime: {
           value: 0,
         },
-        uTres: { value: null },
       },
       fragmentShader, // to be imported from another file
       vertexShader, // to be imported from another file
