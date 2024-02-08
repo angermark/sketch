@@ -70,8 +70,6 @@ export class ArbitraryHead2 extends SceneMesh {
     box2?.getCenter(boxCenter);
     this.boneCenterX = boxCenter.x;
     this.boneCenterZ = boxCenter.z;
-    console.log(this.boneCenterX);
-    console.log(this.boneCenterZ);
 
     const skinIndices: number[] = [];
     const skinWeights: number[] = [];

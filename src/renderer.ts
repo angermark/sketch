@@ -7,7 +7,6 @@ export class Renderer {
     sizes: { width: number; height: number }
   ) {
     this.renderer = new THREE.WebGLRenderer({ canvas });
-    console.log(sizes);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.setSize(sizes.width, sizes.height);

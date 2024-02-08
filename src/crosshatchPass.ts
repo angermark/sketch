@@ -54,11 +54,7 @@ export class CrosshatchPass extends Pass {
     this.fsQuad.dispose();
   }
 
-  render(
-    renderer: THREE.WebGLRenderer,
-    writeBuffer: THREE.WebGLRenderTarget<THREE.Texture>,
-    readBuffer: THREE.WebGLRenderTarget<THREE.Texture>
-  ): void {
+  render(renderer: THREE.WebGLRenderer): void {
     const elapsedTime = this.clock.getElapsedTime();
     const deltaT = elapsedTime - this.previousTime;
 

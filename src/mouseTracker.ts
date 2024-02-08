@@ -40,7 +40,6 @@ export class MouseTracker {
         width: window.innerWidth,
         height: window.innerHeight,
       };
-      console.log(this.windowSize);
     });
   }
 
